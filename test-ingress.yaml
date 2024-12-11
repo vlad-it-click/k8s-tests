@@ -1,0 +1,47 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+    name: test-ingress
+    namespace: default
+    annotations:
+       nginx.ingress.kubernetes.io/use-regex: "true"
+       kubernetes.io/ingress.class: "nginx"
+spec:
+  rules:
+  - host: kubernet1.ehealthinnovation.org
+    http:
+      paths:
+        - pathType: Prefix
+          path: "/"
+          backend:
+            service:
+              name: webserver-service
+              port:
+                number: 80
+
+  - host: kubernet2.ehealthinnovation.org
+    http:
+      paths:
+        - path: /.*
+          pathType: Prefix
+          backend:
+            service:
+              name: k8sphp-service
+              port:
+                number: 80
+
+  - host: kubernet3.ehealthinnovation.org
+    http:
+      paths:
+        - path: /.*
+          pathType: Prefix
+          backend:
+            service:
+              name: nginx-app
+              port:
+                number: 80
+  tls:
+  - hosts:
+    - kubernet1.ehealthinnovation.org
+    - kubernet2.ehealthinnovation.org
+    secretName: ingress-cert

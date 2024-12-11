@@ -1,0 +1,1 @@
+kubectl create secret generic database --from-literal=MYSQL_HOST=mysql-service  --from-literal=MYSQL_DATABASE=test_db1 --from-literal=MYSQL_ROOT_PASSWORD=test123 --from-literal=MYSQL_USER=dbuser --from-literal=MYSQL_PASSWORD=test123

@@ -1,0 +1,40 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+    name: test3-ingress
+    namespace: default
+    annotations:
+       nginx.ingress.kubernetes.io/use-regex: "true"
+spec:
+  ingressClassName: nginx # or nginx-internal
+  rules:
+  - host: kubernet1.ehealthinnovation.org
+    http:
+      paths:
+        - pathType: Prefix
+          path: "/"
+          backend:
+            service:
+              #name: webserver-service
+              #name: lamp-service
+              name: wordpress
+              port:
+                number: 80
+
+  #- host: kubernet3.ehealthinnovation.org
+  #  http:
+  #    paths:
+  #      - path: /
+  #        pathType: Prefix
+  #        backend:
+  #          service:
+              #name: tomcat-service
+  #            name: frontend
+  #            port:
+  #              number: 80
+
+  tls:
+      - hosts:
+         - kubernet1.ehealthinnovation.org
+   #      - kubernet3.ehealthinnovation.org
+        secretName: ingress-ssl-cert 

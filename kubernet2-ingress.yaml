@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+    name: kubernet2-ingress
+    namespace: default
+    annotations:
+       nginx.ingress.kubernetes.io/use-regex: "true"
+spec:
+  ingressClassName: nginx # or nginx-internal
+  rules:
+  - host: kubernet2.ehealthinnovation.org
+    http:
+      paths:
+        - path: /.*
+          pathType: Prefix
+          backend:
+            service:
+              name: k8sphp-service
+              port:
+                number: 80 
+
+  tls:
+  - hosts:
+    - kubernet2.ehealthinnovation.org
+    secretName: ingress-cert
